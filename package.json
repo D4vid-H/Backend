@@ -8,9 +8,8 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "servidor.js",
-  "devDependencies": {},
   "scripts": {
-    "start": "node ./servidor.js"
+    "start": "nodemon ./clase7.js"
   },
   "repository": {
     "type": "git",
