@@ -7,15 +7,33 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="">
+
+    <h1>Hello World</h1>
+    <!-- <form action="/api/mascotas" method="POST">
+        <h2>Mascotas</h2>
         nombre: <input type="text" name="nombre">
-        nombre: <input type="text" name="nombre">
-        nombre: <input type="text" name="nombre">
+        raza: <input type="text" name="raza">
+        edad: <input type="number" name="edad">
+        <input type="submit" value="enviar">
     </form>
-    <form action="">
+
+    <form action="/api/personas" method="POST">
+        <h2>Personas</h2>
         nombre: <input type="text" name="nombre">
-        nombre: <input type="text" name="nombre">
-        nombre: <input type="text" name="nombre">
+        apellido: <input type="text" name="apellido">
+        edad: <input type="number" name="edad">
+        <input type="submit" value="enviar">
+    </form> -->
+
+    <form action="/api/upload" enctype="multipart/form-data" method="POST">
+        <label for="myfile"> seleccionar un archivo</label>
+        <input type="file" name="myfile">
+        <input type="submit" value="Upload">
+    </form>
+    <form action="/api/uploads" enctype="multipart/form-data" method="POST">
+        <label for="myfiles"> seleccionar multiples archivo</label>
+        <input type="file" name="myfiles" multiple>
+        <input type="submit" value="Upload multiples files">
     </form>
 </body>
 </html>

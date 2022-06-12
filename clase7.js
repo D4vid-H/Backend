@@ -2,8 +2,8 @@ const express = require("express");
 const app = express();
 const PORT = 8080;
 
-/* const frase = "Hola mundo como estan"; */
-const frase = "Frase inicial";
+const frase = "Hola mundo como estan";
+/* const frase = "Frase inicial"; */
 
 const server = app.listen(PORT, () => {
   console.log(`Servidor HTTP escuchando en el puerto ${server.address().port}`);
@@ -107,4 +107,13 @@ app.put('/api/palabras/:pos', (req, res) => {
   const anterior = newFrase[posicion];
   newFrase[posicion] = palabra;
   res.json({alctualizada: palabra, anterior })
+})
+
+app.delete('/api/palabras/:pos', (req, res) => {
+  const posicion = Number(req.params.pos);
+  console.log(posicion);
+  let newFrase = frase.split(' ')
+  newFrase[posicion - 1] = '';
+  console.log(newFrase);
+  res.sendStatus(200);
 })
