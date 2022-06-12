@@ -1,4 +1,6 @@
 const express = require("express");
+const router = express.Router();
+const multer = require("multer");
 const app = express();
 
 
@@ -12,4 +14,4 @@ app.get('/productos/:id', (req, res) => {
    products.find(prod => prod.id === id)
 })
 
-module.exports = routes
+module.exports = router
