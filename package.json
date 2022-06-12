@@ -10,7 +10,7 @@
   "main": "servidor.js",
   "devDependencies": {},
   "scripts": {
-    "start": "node ./servidor.js"
+    "start": "nodemon ./server.js"
   },
   "repository": {
     "type": "git",
