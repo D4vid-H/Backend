@@ -15,13 +15,14 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api', routes);
 
-app.get('/', (req, res)=> {
+/* app.get('/', (req, res)=> {
     console.log('Directorio Raiz');
     res.sendFile(__dirname + '/html/index.html')
-})
+}) */
 
+app.use('/home', express.static(__dirname + '/html/index.html'))
 
-/* app.use((error,req, res) => {
+app.use((error,req, res) => {
     console.log(error.message);
     res.status(error.statusCode).send(error.message)
-}) */
+})
