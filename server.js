@@ -10,7 +10,7 @@ console.log(`Servidor HTTP escuchando en el puerto ${server.address().port}`);
 })
 server.on("error", (error) => console.log(`Error en servidor ${error} `));
 
-/* app.engine('hbs', engine({
+app.engine('hbs', engine({
     extname: '.hbs',
     defaultLayout: path.join(__dirname, './src/views/layout/main.hbs'),
     layoutsDir: path.join(__dirname, './src/views/layout'),
@@ -19,17 +19,6 @@ server.on("error", (error) => console.log(`Error en servidor ${error} `));
   
 
 app.set('views', path.join(__dirname, './src/views'));
-app.set('views engine', 'hbs'); */
-
-app.engine('hbs', engine({
-    extname: '.hbs',
-    defaultLayout: path.join(__dirname, '/views/layout/main.hbs'),
-    layoutsDir: path.join(__dirname, '/views/layout'),
-    partialsDir: path.join(__dirname, '/views/partials')
-}));
-
-
-app.set('views', './views');
 app.set('views engine', 'hbs');
 
 

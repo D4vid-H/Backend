@@ -31,13 +31,11 @@ const products = new Contenedor();
 const getProductos = (req, res) => {
     try{
         const productos = products.get();
-        console.log(productos);
-        res.render('products.hbs', {message: 'holaaa'})
-        /* if(productos.length !== 0){
+        if(productos.length !== 0){
             res.render('products.hbs', {productos, hasAny: true});
         }else{
             res.render('products.hbs', {hasAny: false});
-        } */
+        }
     }
     catch(e){
         console.log('el error es: ', e ); 

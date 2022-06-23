@@ -1,15 +1,13 @@
-<h1>Productos desde HBS</h1>
-<p>{{message}}</p>
 
+<h1>Productos</h1>
 {{#if hasAny}}
     {{#each productos}}
         <li>
-        <h1>{{this.title}}</h1>
+        <h2>{{this.title}}</h2>
         <img src="{{this.thumbnail}}" alt="">
         <p>{{this.price}}</p>
         </li>
     {{/each}}
-{{/if}}
-{{#else}}
+  {{else}}
     <h2>No hay productos</h2>
-{{/else}}
+{{/if }}
