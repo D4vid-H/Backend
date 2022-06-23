@@ -3,6 +3,8 @@
 
 ## Informacion
     Se entrega el proyecto en un repositorio con 3 carpetas respectivas a cada Motor de plantilla.
+    No me parecio particularmente una plantilla mas simple que la otra, pero me quedo con la plantilla
+    'EJS'.
 
 ## Instalacion
     Se debe realizar la descarga del proyecto desde Github y correr el siguiente comando para instalar las dependencias necesarias.
