@@ -1,0 +1,20 @@
+
+extends main.pug
+block data
+        h2 Productos 
+            if hasAny
+                table
+                    tr
+                        th TITULO
+                        th PORTADA
+                        th PRECIO
+                    
+                
+                    each item in productos
+                        tr
+                            td= item.title 
+                            td
+                                img(alt="item img", src=`${item.thumbnail}`)
+                            td= `$${item.price} USD`
+            else
+                p No hay productos cargados.
