@@ -1,0 +1,15 @@
+<h1>Productos desde HBS</h1>
+<p>{{message}}</p>
+
+{{#if hasAny}}
+    {{#each productos}}
+        <li>
+        <h1>{{this.title}}</h1>
+        <img src="{{this.thumbnail}}" alt="">
+        <p>{{this.price}}</p>
+        </li>
+    {{/each}}
+{{/if}}
+{{#else}}
+    <h2>No hay productos</h2>
+{{/else}}
