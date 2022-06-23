@@ -1,0 +1,8 @@
+extends meter.pug
+block data
+    h1(style=estilo2)= titulo    
+        label(style=estilo ) Meter x params  
+            br  
+            span=min
+            meter(value=value min=min max=max )
+            span=max

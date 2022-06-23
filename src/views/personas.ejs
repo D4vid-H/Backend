@@ -1,0 +1,13 @@
+<% if(personas.length) { %>
+    <ul>
+        <% personas.forEach(persona => { %>
+            <li> 
+                nombre: <%= persona.nombre %> 
+                apellido: <%= persona.apellido %> 
+                edad: <%= persona.edad %>
+            </li> 
+            <% }) %> 
+    </ul>
+    <% } else {%>
+        <p style="color:red">No hay personas cargadas</p>
+        <% } %> 
