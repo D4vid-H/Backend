@@ -1,0 +1,20 @@
+<h2>PRODUCTOS</h2>
+        <% if (productos){ %>
+            <table>
+                <tr>
+                    <th>TITULO</th>
+                    <th>PORTADA</th>
+                    <th>PRECIO</th>
+                </tr>
+            
+                <% productos.forEach(item=>{%> 
+                <tr>
+                    <td><%=item.title%></td>
+                    <td><img alt="item img" src="<%=item.thumbnail%>"  /></td>
+                    <td>$<%=item.price%>  USD</td>
+                </tr>
+                <% })  %> 
+            </table>
+        <% } else {%>
+    <p>No hay productos cargados.</p>
+    <% } %>
