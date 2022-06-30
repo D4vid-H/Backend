@@ -64,6 +64,10 @@ h1{
     margin-bottom: 5%;
 }
 
+h2{
+    margin: auto;
+}
+
 button{
     width: 5.5rem;
     height: 2.5rem;
