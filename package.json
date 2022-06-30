@@ -1,26 +1,19 @@
 {
-  "dependencies": {
-    "dotenv": "^16.0.1",
-    "express": "^4.18.1",
-    "nodemon": "^2.0.16",
-    "socket.io": "^4.5.1"
-  },
-  "name": "backend",
+  "name": "chatwebsocket",
   "version": "1.0.0",
-  "main": "servidor.js",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "start": "nodemon ./desafio/src/server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/D4vid-H/Backend.git"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./src/server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/D4vid-H/Backend/issues"
-  },
-  "homepage": "https://github.com/D4vid-H/Backend#readme",
-  "description": ""
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "nodemon": "^2.0.18",
+    "socket.io": "^4.5.1"
+  }
 }
