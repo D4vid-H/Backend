@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>Formulario Producto</title>
+</head>
+<body>
+    <h1>Nuevo PRODUCTO</h1>
+    <form action="/api/productos/" method="POST">
+        <fieldset class="formulario">
+            <label for="name">Nombre del producto:</label>
+            <input type="text" name="name" placeholder="Nombre del producto">
+            <label for="description">Descripcion del producto:</label>
+            <textarea name="escription" rows="auto" cols="auto" placeholder="Descripcion del producto"></textarea>
+            <label for="code">Codigo:</label>
+            <input type="text" name="code" placeholder="Codigo del producto">
+            <label for="image">Imagen:</label>
+            <input type="text" name="image" placeholder="imagen del producto">
+            <label for="price">Precio:</label>
+            <input type="number" name="price" placeholder="Precio del producto" value="0">
+            <label for="stock">Stock:</label>
+            <input type="number" name="stock" placeholder="Stock del producto" value="0">
+            <label for="admin"><input type="checkbox" name="admin" id="admin" value="true" class="checkbox">Administrador</label>
+            <button type="submit">Enviar</button>
+        </fieldset>
+    </form> 
+    
+    <h1>Actualizar/Borrar PRODUCTO</h1>
+    <form>        
+        <label for="prodId">ID:</label>
+        <input id="setId" name="prodId" type="number">
+        <button id="chargeProd">Cargar</button>
+    </form>
+
+    <div id="formUpdate"></div>
+
+    <script src="../main.js"></script>
+</body>
+</html>
