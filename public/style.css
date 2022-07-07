@@ -1,0 +1,145 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.title{
+    margin: 3% 50%;
+    width: 100%;
+    color: rgba(12, 63, 2, 0.922);
+}
+
+.formulario{
+    display: flex;
+    flex-direction: column;    
+}
+
+a{
+    text-decoration: none;
+    margin-left: 3%;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 400;
+    font-size: large;
+    width: 18rem;
+    height: 13rem;
+    border: 2px solid black;
+    border-radius: 12px;
+    background-color: rgba(0, 0, 255, 0.451);
+    color: beige;
+    padding: 0.5rem;
+}
+
+a:hover{
+    background-color: rgba(3, 3, 125, 0.273);
+    color: rgba(8, 8, 8, 0.545);    
+}
+
+form{
+    margin: 3%;
+    background-color: rgba(128, 128, 128, 0.62);
+    color: rgba(2, 10, 47, 0.687);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: medium;
+    font-weight: 800;
+}
+
+label{
+    margin: 0.5rem 1rem;
+}
+input{
+    width: 35%;
+    height: 0.5rem;
+    padding: 1rem;
+    margin: 0.5rem;
+}
+.checkbox{
+    height: 15px;
+    margin-left: 1rem;
+}
+textarea{
+    margin-left: 0.5rem;
+    width: 75%;
+}
+
+button{
+    width: 75px;
+    height: 35px;
+    border-radius: 15px;
+    border: 2px solid black;
+    color: white;
+    background-color: black;
+    margin-left: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+/*------------GRID----------------------*/
+
+#app{
+    display: grid;
+    grid-template-columns: repeat(4, 20%);
+    grid-template-rows: auto;
+    gap: 1rem;
+    row-gap: 2rem;
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 5%;
+}
+
+/*-------------------card---------------*/
+
+.prodCard{
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-content: center;
+width: 95%;
+height: 250px;
+background-color: blueviolet;
+border-radius: 12px;
+}
+
+.prodImgCont{
+width: 50%;
+}
+
+.prodImg{
+margin-top: 20%;
+margin-left: 10px;
+width: 100%;
+height: 200px;
+}
+
+.prodInfoCont{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.prodName{
+    font-size: 24px;
+    margin-top: 20%;
+    margin-left: 15px;
+}
+.prodCode{
+    font-size: 16px;
+    margin-left: 15px;
+    margin-top: 5%;
+}
+.prodDescription{
+    font-size: 16px;
+    margin-left: 15px;
+    margin-top: 5%;
+}
+.prodPrice{
+    margin-top: 5%;
+    font-size: 16px;
+    margin-left: 15px;
+}
+.prodStock{
+    margin-top: 5%;
+    font-size: 16px;
+    margin-left: 15px;
+}
+.prodButton{
+    margin-top: 5%;
+    margin-left: 15px;
+}
