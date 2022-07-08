@@ -7,7 +7,7 @@ cartrouter.post('/', postCart);
 
 cartrouter.delete('/:id', deleteCart);
 
-cartrouter.get('/:id', getCart);
+cartrouter.get('/:id/productos', getCart);
 
 cartrouter.put('/:id/product/:id_prod', putCart);
 
