@@ -16,7 +16,7 @@ export const getCart = async (req, res) => {
 
 export const postCart = async (req, res) => {
     try{
-        res.json(await cartContainer.add());
+        res.json({cartID: await cartContainer.add()});
     }catch(error){
         console.log( `se produjo el siguiente error: ${error}`);
         res.sendStatus(500)

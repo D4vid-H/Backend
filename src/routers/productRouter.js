@@ -4,9 +4,7 @@ const prodrouter = express.Router();
 
 const police = (req, res, next) => {
     const validPass = req.body.admin;
-    console.log(validPass);
     if(validPass === 'true'){
-        console.log('ente al IF');
         next();
     }else{
         res.json({ error: -1, descripcion: 'no autorizado, debe ser Administrador para esta accion.' })

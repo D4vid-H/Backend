@@ -29,8 +29,6 @@ export const putProducts = async (req, res) => {
     try{
         const id = Number(req.params.id);
         const updateProduct = req.body;
-        console.log(id);
-        console.log(updateProduct);
         res.json(await prodContainer.set(id, updateProduct));
     }catch(error){
         console.log( `se produjo el siguiente error: ${error}`);

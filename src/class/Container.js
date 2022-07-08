@@ -76,7 +76,7 @@ export class prodContenedor {
   async set(id, product) {
     try {
       let datos = await fs.promises.readFile(path.join(__dirname, `./class/${this.fileName}`), "utf-8");
-      console.log(datos);      
+      //console.log(datos);      
       if(datos){
         const products = JSON.parse(datos);
         const pro = products.find(prod => prod.id === id);
@@ -96,7 +96,7 @@ export class prodContenedor {
             return prod;
           }      
         });
-        console.log(updateProduct);
+       // console.log(updateProduct);
         await fs.promises.writeFile(
           path.join(__dirname, `./class/${this.fileName}`),
           JSON.stringify(updateProduct)
@@ -172,7 +172,11 @@ export class cartContenedor {
             const carts = JSON.parse(datos);
             if(carts.find((cart) => cart.id === id)){
               const cart = carts.find((cart) => cart.id === id);
-              return cart.products; 
+              if(cart.products.length === 0){
+                return {Products: 'vacio'}
+              }else{
+                return cart.products; 
+              }
             }else {
               return (`El Carrito con id: ${id} no existe`);
             }
