@@ -10,6 +10,9 @@ const formMessage = document.querySelector('#formMessage');
 const infoEmail = document.querySelector('#infoEmail');
 const infoMessage = document.querySelector('#infoMessage');
 
+const btnBorrarProd = document.querySelector('#btnBorrarProd');
+const btnBorrarMsg = document.querySelector('#btnBorrarMsg');
+
 formProduct.addEventListener('submit', evt => {
     evt.preventDefault();
     const title = infoTitle.value;
@@ -28,24 +31,42 @@ formMessage.addEventListener('submit', evt => {
         socket.emit('client:message', {email, date, message})
 })
 
+btnBorrarProd.addEventListener('click', evt =>{
+    evt.preventDefault();
+    socket.emit('client:borrarProduct', {hasAny: true});
+})
+
+btnBorrarMsg.addEventListener('click', evt =>{
+    evt.preventDefault();
+    socket.emit('client:borrarMessages', {hasAny: true});
+})
+
 socket.on('server:data', productArray => {
-   productArray.forEach(prod => {
-    document.querySelector('#prodContainer').innerHTML = '';
-    if(!prod.hasAny){
-        return renderTemplateProducts(prod);
-    }
+    if(productArray.length !== 0){
+        productArray.forEach(prod => {
+        document.querySelector('#prodContainer').innerHTML = '';
+        if(!prod.hasAny){
+            return renderTemplateProducts(prod);
+        }
         renderTemplateProducts(prod);      
-    })
+        })
+    }else{
+        document.querySelector('#prodContainer').innerHTML = '';
+    }
 })
 
 socket.on('server:message', messageArray => {
-    messageArray.forEach(message =>{
+    if(messageArray.length !== 0){
+        messageArray.forEach(message =>{
+            document.querySelector('#messageContainer').innerHTML = '';
+            if(!message.hasAny){
+                renderTemplateMessages(message);
+            }else{
+                renderTemplateMessages(message);
+            }
+        })
+    }else{
         document.querySelector('#messageContainer').innerHTML = '';
-        if(!message.hasAny){
-            renderTemplateMessages(message);
-        }else{
-            renderTemplateMessages(message);
-        }
-    })
+    }
 })
  

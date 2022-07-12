@@ -40,7 +40,7 @@
 
 .messageContainer{
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     background-color: rgba(105, 105, 105, 0.31);
     border: 3px solid black;
     border-radius: 12px;

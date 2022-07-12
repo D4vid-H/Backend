@@ -2,7 +2,9 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const port = process.env.PORT;
-const fs = require('fs');
+const databaseProducts = require('./database/database.js');
+const databaseMessages = require('../db/SQLite3.js')
+//const fs = require('fs');
 const {Server: IOServer} = require('socket.io');
 const app = express();
 const serverExpress = app.listen(port, error => {
@@ -14,110 +16,126 @@ const serverExpress = app.listen(port, error => {
 });
 const io = new IOServer(serverExpress);
 
+const createTableProductos = async(tableName) => {
+    try{
+        await databaseProducts.schema.dropTableIfExists(tableName);
+        await databaseProducts.schema.createTable(tableName, table_prod => {
+            table_prod.increments('id').primary();
+            table_prod.string('title', 50).notNullable();
+            table_prod.string('thumbnail', 1000).notNullable();
+            table_prod.integer('price').notNullable();
+        });
+        
+        console.log('tablePrds created!');
+    }catch(error){
+        console.log(error);
+        database.destroy();
+    }
+
+}
+
+const createTableMensajes = async(tableName) => {
+    try{
+        await databaseMessages.schema.dropTableIfExists(tableName);
+        await databaseMessages.schema.createTable(tableName, table_msg => {
+            table_msg.increments('id').primary();
+            table_msg.string('message', 100).notNullable();
+            table_msg.string('email', 1000).notNullable();
+            table_msg.string('date', 100).notNullable();
+        });
+        
+        console.log('tableMsg created!');
+    }catch(error){
+        console.log(error);
+        database.destroy();
+    }
+
+}
+
 class Contenedor {
-    constructor(fileName) {
-        this.fileName = fileName
-        /* fs.promises.writeFile(`./${fileName}`, '') */
+    constructor(database, tableName) {
+        this.database = database;
+        this.tableName = tableName;
     }
 
     async add(objeto) {
         try{
-            let datos = await fs.promises.readFile(path.join(__dirname, `./${this.fileName}`), 'utf-8')
-            if(!datos) {
-                objeto.id = 1
-                const arreglo = [objeto]
-                await fs.promises.writeFile(path.join(__dirname, `./${this.fileName}`), JSON.stringify(arreglo))
-                return objeto.id
-            } else {
-                datos = JSON.parse(datos);
-                objeto.id = datos[datos.length - 1].id + 1
-                datos.push(objeto)
-                await fs.promises.writeFile(path.join(__dirname, `./${this.fileName}`), JSON.stringify(datos))
-                return objeto.id
-            }
+            await this.database(this.tableName).insert(objeto);            
         }catch(error){
             console.log(`Error: ${error}`);
+            database.destroy();
         }
     }
     
     async getAll(){
         try{
-            let datos = await fs.promises.readFile(path.join(__dirname, `./${this.fileName}`), 'utf-8');
-            if(datos){
-                let datos = JSON.parse(await fs.promises.readFile(path.join(__dirname, `./${this.fileName}`), 'utf-8'));
-                const objetos = datos.map(obj => {
-                        obj.hasAny = true;
-                        return obj;
-                    });
-                return objetos;
-            }else{
-                return [{message: 'No hay productos', hasAny: false}];
+            const arrayFromDatabase = await this.database.from(this.tableName).select('*');
+            const array = await Promise.all(
+                arrayFromDatabase.map( obj =>{
+                    obj.hasAny = true;
+                    return obj;
+                })          
+            ); 
+            return array;
+        }catch(error){
+            console.log(error);
+            database.destroy();
+        }
+    }
+
+    async deleteAll(objeto){  
+        try{
+            if(objeto.hasAny){
+                await this.database.from(this.tableName).del();
             }
         }catch(error){
             console.log(`Error: ${error}`);
+            database.destroy();
         }
     }
-
-    async getById(id){
-        try{
-            let datos = JSON.parse(await fs.promises.readFile(path.join(__dirname, `./${this.fileName}`), 'utf-8'));
-            const objeto = datos.find(pro => pro.id === id)   
-            if(objeto){
-                console.log(objeto);
-                return objeto;
-            }else{
-                console.log(`El numero de id: ${id} no existe.`);
-            }
-        }catch(error){
-            console.log(`Error: ${error}`);
-        }
-    }
-
-
-    async deteleById(id){
-        try{
-            let datos = JSON.parse(await fs.promises.readFile(path.join(__dirname, `./${this.fileName}`), 'utf-8'));
-            const arreglo = datos.filter(pro => pro.id !== id);
-                await fs.promises.writeFile(path.join(__dirname, `./${this.fileName}`), JSON.stringify(arreglo));
-            console.log(`El Objeto con Id: ${id} fue eliminado`);
-            console.log(JSON.parse(await fs.promises.readFile(path.join(__dirname, `./${this.fileName}`), 'utf-8')));
-        }catch(error){
-            console.log(`Error: ${error}`);
-        }
-    }
-
-    async deleteAll(){  
-        try{
-            await fs.promises.writeFile(path.join(__dirname, `./${this.fileName}`), JSON.stringify(''));
-            console.log(`Se eliminaron todos los objetos.`);
-            console.log(JSON.parse(await fs.promises.readFile(path.join(__dirname, `./${this.fileName}`), 'utf-8')));
-        }catch(error){
-            console.log(`Error: ${error}`);
-        }
-    }
-
 }
 
-const productosContenedor = new Contenedor('productos.txt')
-const messageContenedor = new Contenedor('post.txt')
+createTableProductos('products');
+createTableMensajes('messages');
+
+const productosContenedor = new Contenedor(databaseProducts, 'products')
+const messageContenedor = new Contenedor(databaseMessages, 'messages')
 
 app.use(express.static(path.join(__dirname, '../public')))
 
 io.on('connection', async socket => {
     console.log(`Se conecto un nuevo Cliente con ID: ${socket.id}`);
 
-        socket.emit('server:data', await productosContenedor.getAll());
-        socket.emit('server:message', await messageContenedor.getAll()); 
+        const products = await productosContenedor.getAll();
+        socket.emit('server:data', products);
+
+        const messages = await messageContenedor.getAll();
+        socket.emit('server:message', messages);
 
     socket.on('client:product', async product =>{
         await productosContenedor.add(product);
-        io.emit('server:data', await productosContenedor.getAll());
+        const newProduct = await productosContenedor.getAll();
+        io.emit('server:data', newProduct);
     })
+
+    socket.on('client:borrarProduct', async obj => {
+        await productosContenedor.deleteAll(obj);
+        const newProduct = await productosContenedor.getAll();
+        io.emit('server:data', newProduct);
+    })
+
+    socket.on('client:borrarMessages', async obj => {
+        await messageContenedor.deleteAll(obj);
+        const newMessage = await messageContenedor.getAll();
+        io.emit('server:message', newMessage);
+    })
+
     socket.on('client:message', async message => {
         await messageContenedor.add(message);
-        io.emit('server:message', await messageContenedor.getAll())
+        const newMessage = await messageContenedor.getAll();
+        io.emit('server:message', newMessage);
     })
-})
+});
 
 
 
