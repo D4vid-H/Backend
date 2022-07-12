@@ -4,7 +4,6 @@ export const renderTemplateProducts = async (product) => {
         const datos = await fetch('./products.hbs');
         const plantilla = await datos.text();
         const template = Handlebars.compile(plantilla);
-        console.log(product.thumbnail);
         const html = template(product);
         document.querySelector('#prodContainer').innerHTML += html;                
     }catch(error){
