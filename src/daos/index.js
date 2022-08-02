@@ -54,6 +54,7 @@ switch (Opcion) {
     const { default: CarritoDacArchivo } = await import(
       "./carritos/CarritosDaoArchivo.js"
     );
+    console.log('Entro al Index de Archivo');
 
     ProductoDao = new ProductDacArchivo();
     CarritoDao = new CarritoDacArchivo();

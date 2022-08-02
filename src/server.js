@@ -4,9 +4,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import prodrouter from "./routers/productRouter.js";
 import cartrouter from "./routers/cartRouter.js";
-/* import dotenv from "dotenv";
 
-dotenv.config(); */
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -28,3 +26,6 @@ app.use(express.static(path.join(__dirname, "../public")));
 
 app.use("/api/productos", prodrouter);
 app.use("/api/carrito", cartrouter);
+
+
+export default __dirname;

@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
-import __dirname from "../files/Container.js";
+import __dirname from "../files/addresPath.js";
 
 export default class Contenedor {
   constructor(fileName) {
