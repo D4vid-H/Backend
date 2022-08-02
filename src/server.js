@@ -28,3 +28,6 @@ app.use(express.static(path.join(__dirname, "../public")));
 
 app.use("/api/productos", prodrouter);
 app.use("/api/carrito", cartrouter);
+
+
+export default __dirname;
