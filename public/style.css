@@ -6,7 +6,7 @@
 
 .formProduct{
     margin: 3% 0;
-    height: 4rem;
+    height: 6rem;
 }
 
 .formProduct label{
@@ -17,7 +17,12 @@
 
 .formMessage{
     margin: 3% 0;
-    height: 4rem;
+    height: 6rem;
+}
+
+.formMessage input{
+    margin-top: 7px;
+    margin-bottom: 7px;
 }
 
 .formMessage label{
@@ -34,7 +39,7 @@
     border-radius: 12px;
     box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
     width: 90%;
-    height: 24rem;
+    height: 27rem;
     overflow-y: auto;
 }
 
@@ -92,6 +97,7 @@ td{
 }
 .chat__Container{
     display: block;
+    border: 2px solid #3c3b3f;
 }
 
 .email__Cla{

@@ -3,15 +3,14 @@ import mongoose from 'mongoose';
 const messageSchema = new mongoose.Schema(
     { 
         author: {
-            id: { type: Number, require: true, unique: true},
-            nombre: { type: String, require: true},
-            apellido: { type: String, require: true}, 
-            edad: { type: Number, require: true}, 
-            alias: { type: String, require: true},
-            avatar: { type: String, require: true}
+            email: { type: String, required: true, unique: true},
+            nombre: { type: String, required: false},
+            apellido: { type: String, required: false}, 
+            edad: { type: Number, required: false}, 
+            alias: { type: String, required: false},
+            avatar: { type: String, required: false}
         },
-        text: { type: String, require: true},
-        hasAny: { type: Boolean, require: true}
+        text: { type: String, required: false}
     }
     
 );

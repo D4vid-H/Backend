@@ -8,7 +8,11 @@ import router from './routers/index.js';
 import fetch from "node-fetch";
 import mongoose from 'mongoose';
 import config from './config.js';
-import Message from './mongoDB/mongoConnect.js'
+import Message from './mongoDB/mongoConnect.js';
+import { normalize } from 'normalizr';
+import postSchema from './normalized/normalizr.js'
+
+
 await mongoose.connect(config.mongoose)
 
 const __filename = fileURLToPath(import.meta.url);
@@ -24,6 +28,19 @@ const serverExpress = app.listen(port, error => {
 });
 const io = new Server(serverExpress);
 
+const mensajes = async () => {
+    const arraymessages = await Message.find();
+        if(arraymessages.length !== 0){
+            let i = 0;
+            const nuevoArray = arraymessages.map( doc => {
+                i++
+                const obj = { id: i, author: doc?.author, text: doc?.text }
+                return obj;
+            });
+            const normalizedPost = normalize( nuevoArray , [postSchema]);
+        return normalizedPost;
+        }
+}
 
 
 app.use(express.static(path.join(__dirname, '../public')));
@@ -36,14 +53,9 @@ io.on('connection', async socket => {
         const ProductoJSON = await Producto.json();
         socket.emit('server:data', ProductoJSON);
 
-        /* const messages = await message.getAll();
-        socket.emit('server:message', messages); */
-
-     /* socket.on('client:product', async product =>{
-        const Producto = await fetch("http://localhost:8080/api/productos-test");
-        const ProductoJSON = await Producto.json();
-        io.emit('server:data', ProductoJSON);
-    }) */
+        const messages = await mensajes();
+        socket.emit('server:normalizedMsg', messages);
+        
 
     socket.on('client: actualizarTabla', async () => {
         const Producto = await fetch("http://localhost:8080/api/productos-test");
@@ -57,10 +69,11 @@ io.on('connection', async socket => {
         io.emit('server:message', newMessage);
     }) 
 
-    socket.on('client:message', async message => {
-        await messageContenedor.add(message);
-        const newMessage = await messageContenedor.getAll();
-        io.emit('server:message', newMessage);
+    socket.on('client:msgNormalizr', async message => {
+            const mensaje = new Message(message)
+        await mensaje.save();
+            const messages = await mensajes();
+        io.emit('server:normalizedMsg', messages);
     })
 });
 

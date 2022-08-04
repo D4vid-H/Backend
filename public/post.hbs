@@ -1,9 +1,16 @@
-{{#if hasAny}}
+{{!-- {{#if hasAny}} --}}
     <div class="chat__Container">
-        <span class="email__Cla">{{email}}</span>
-        <span class="date__Cla">{{date}}</span>
-        <span class="message__Cla">{{message}}</span>
+        <p>Author:
+        <span class="email__Cla">{{author.email}}</span>
+        </p>
+        <div><img class="image" alt="item img" src={{author.avatar}} /></div>
+        <span class="date__Cla">Nombre:{{author.nombre}}</span>
+        <span class="date__Cla">Apellido: {{author.apellido}}</span>
+        <span class="date__Cla">Edad:{{author.edad}}</span>
+        <span class="date__Cla">Alias: {{author.alias}}</span>
+        <p>Text:</p>
+        <p class="message__Cla">{{text}}</p>
     </div>  
-    {{else}}
+{{!--     {{else}}
     <h2>{{message}}</h2>
-{{/if}}
+{{/if}} --}}
