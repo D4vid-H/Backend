@@ -4,11 +4,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entrega Faker/Normalizr</title>
+    <title>Entrega Sesion en MongoAtlas</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Desafio entrega Faker/Normalizr</h1>
+    <div>
+        <form action="/api/logout" method="get">
+            <h1 id="saludo" class="saludo"></h1>
+            <input type="submit" value="Logout">
+        </form>
+    </div>
+
     <div>
         <form id="formProduct" >
             <!-- <fieldset class="formProduct">
@@ -65,6 +71,7 @@
 
     <div id="messageContainer" class="messageContainer"></div>
 
+    
     <script src="https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
