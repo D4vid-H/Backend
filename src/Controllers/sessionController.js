@@ -8,20 +8,17 @@ const redirect = (req, res) => {
 const getIndex = (req, res) => {
     const User = req.session?.user;
     if(User){ 
-       return res.redirect('/');
+       return res.redirect('/api/home');
     }else{
-       return res.redirect('/api/login');
+       return res.redirect('/login');
     }
 }
 
 const getUser = async (req, res) => {
     //const nombre = await req.session?.user; //no me trae el usuaro
     if(nameUser) {
-        console.log('hay usuario en atlas');
         return res.json(nameUser)
     } else {
-
-        console.log('NO hay usuario en atlas');
      return res.json('none')
     }
 }

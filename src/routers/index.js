@@ -1,6 +1,6 @@
 import Router from 'express';
 import getProducts from '../Controllers/faker.js';
-import {pass} from '../Controllers/middelwareController.js';
+import pass from '../Controllers/middelwareController.js';
 import { getIndex, getLogout, getUser, redirect, postLogin, getHome } from '../Controllers/sessionController.js';
 
 const router = Router();
