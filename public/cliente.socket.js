@@ -1,6 +1,4 @@
 import { renderTemplateProducts, renderTemplateMessages } from './renders.js'
-//import { normalize, denormalize } from '/normalizr';
-//import postSchema from '../src/normalized/normalizr.js';
 const socket = io();
 
 const authorSchema = new normalizr.schema.Entity('author', {}, { idAttribute: 'email' });
@@ -20,6 +18,7 @@ const infoTitle = document.querySelector('#infoTitle');
 const infoImg = document.querySelector('#infoImg');
 const infoPrice = document.querySelector('#infoPrice'); */
 
+const saludo = document.querySelector('#saludo');
 
 const formMessage = document.querySelector('#formMessage');
 const infoEmail = document.querySelector('#infoEmail');
@@ -29,17 +28,16 @@ const infoSurName = document.querySelector('#infoSurName');
 const infoAlias = document.querySelector('#infoAlias');
 const infoEdad = document.querySelector('#infoEdad');
 const infoAvatar = document.querySelector('#infoAvatar');
-
+/* const infoLogin = document.querySelector('#login__input'); */
 
 
 const btnBorrarProd = document.querySelector('#btnBorrarProd');
+/* const btnLogin = document.querySelector('#btn__login'); */
 //const btnBorrarMsg = document.querySelector('#btnBorrarMsg');
 
-/* formProduct.addEventListener('submit', evt => {
+/* btnLogin.addEventListener('submit', evt => {
     evt.preventDefault();
-    const title = infoTitle.value;
-    const thumbnail = infoImg.value;
-    const price = infoPrice.value;
+    const name = infoLogin.value;
         socket.emit('client:product', {title, thumbnail, price})
 }) */
 
@@ -66,7 +64,6 @@ formMessage.addEventListener('submit', evt => {
         text: infoMessage.value        
     }
     socket.emit('client:msgNormalizr', mensaje)
-
 })
 
 btnBorrarProd.addEventListener('click', evt =>{
@@ -78,6 +75,11 @@ btnBorrarProd.addEventListener('click', evt =>{
     evt.preventDefault();
     socket.emit('client:borrarMessages', {hasAny:true});
 }) */
+
+socket.on('server:cookiID', name => {
+    saludo.innerHTML = `Bienvenido ${name}`
+})
+
 
 socket.on('server:data', productArray => {
     if(productArray.length !== 0){

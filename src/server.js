@@ -11,12 +11,16 @@ import config from './config.js';
 import Message from './mongoDB/mongoConnect.js';
 import { normalize } from 'normalizr';
 import postSchema from './normalized/normalizr.js'
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
 
 
 await mongoose.connect(config.mongoose)
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
 const port = process.env.PORT;
 const app = express();
 const serverExpress = app.listen(port, error => {
@@ -42,8 +46,29 @@ const mensajes = async () => {
         }
 }
 
+const mongoOptions = { useNewUrlParser: true, useUnifiedTopology: true }
 
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(cookieParser())
+app.use(
+    session({
+        store:MongoStore.create({ mongoUrl: 'mongodb+srv://root:root1234@coderhouse.vi3s2vw.mongodb.net/sessions?retryWrites=true&w=majority', mongoOptions }),
+        secret:'coderhouse',
+        resave: false,
+        saveUninitialized: false,
+        rolling: true,
+        cookie:{
+            maxAge: 10000,
+        },
+    })
+);
+app.use('/login', express.static(path.join(__dirname, '../public/desafio')));
+app.use('/home/index', express.static(path.join(__dirname, '../public')));
+
+app.set('view engine', 'ejs');
+
 app.use('/api', router);
 
 io.on('connection', async socket => {
@@ -55,7 +80,10 @@ io.on('connection', async socket => {
 
         const messages = await mensajes();
         socket.emit('server:normalizedMsg', messages);
-        
+
+        const name = await fetch('http://localhost:8080/api/user')
+        const user = await name.json();
+        socket.emit('server:cookiID', user)
 
     socket.on('client: actualizarTabla', async () => {
         const Producto = await fetch("http://localhost:8080/api/productos-test");
