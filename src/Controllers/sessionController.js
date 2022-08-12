@@ -7,8 +7,6 @@ const redirect = (req, res) => {
 
 const getIndex = (req, res) => {
     const User = req.session?.user;
-    console.log('revisando si Sesion tiene user aca?');
-    console.log(User);
     if(User){ 
        return res.redirect('/');
     }else{
@@ -17,9 +15,7 @@ const getIndex = (req, res) => {
 }
 
 const getUser = async (req, res) => {
-    const nombre = await req.session?.user;
-    console.log(req.session);
-    console.log(nombre);
+    //const nombre = await req.session?.user; //no me trae el usuaro
     if(nameUser) {
         console.log('hay usuario en atlas');
         return res.json(nameUser)
