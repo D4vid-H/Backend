@@ -6,12 +6,7 @@ const redirect = (req, res) => {
 }
 
 const getIndex = (req, res) => {
-    const User = req.session?.user;
-    if(User){ 
-       return res.redirect('/');
-    }else{
-       return res.redirect('/api/login');
-    }
+    res.redirect('/login');
 }
 
 const getUser = async (req, res) => {
@@ -31,9 +26,29 @@ const getHome = (req, res) => {
 }
 
 const postLogin = (req, res) => {
-    req.session.user = req.body.user;
-    nameUser = req.session?.user;
-    res.redirect('/api/home');
+    console.log(req.body.email);
+    console.log(req.body.password);
+    /* if (req.isAuthenticated()) {
+        //nameUser = req.session?.user;
+        res.redirect('/api/home');
+    } else {
+        console.log("user NO logueado");
+        res.redirect('/api/registro');;
+      } */
+      res.send('chau');
+}
+
+const getRegister = (req, res) => {
+    console.log('entre al getRegister');
+    res.render(path.join(process.cwd(), './public/views/register.ejs') /* { user } */);
+}
+
+const postRegister = (req, res) => {
+    //req.session.user = req.body.user;
+    console.log(req.body.email);
+    console.log(req.body.password);
+    res.send('hola')
+    //res.redirect('/api/login');
 }
 
 const getLogout = (req, res) =>{
@@ -41,7 +56,7 @@ const getLogout = (req, res) =>{
     if(user){
         req.session.destroy( (error) => {
             if(!error) {
-              res.render(path.join(process.cwd(), './public/desafio/logout.ejs'), { user });
+              res.render(path.join(process.cwd(), './public/views/logout.ejs'), { user });
             }
             else {
              res.send({status: 'Logout Error', body: error});
@@ -52,4 +67,9 @@ const getLogout = (req, res) =>{
     } 
 }
 
-export { getIndex, getLogout, getUser, redirect, postLogin, getHome };
+const failLogin = (req,res) => {
+
+    res.render(path.join(process.cwd(), './public/views/failLogin.ejs') /* { user } */);
+}
+
+export { getIndex, getLogout, getUser, redirect, postLogin, getHome, failLogin, postRegister, getRegister };
