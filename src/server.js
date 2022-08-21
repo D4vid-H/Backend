@@ -64,7 +64,7 @@ const mongoOptions = { useNewUrlParser: true, useUnifiedTopology: true }
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cookieParser())
+//app.use(cookieParser())
 /* app.use(
     session({
         store:MongoStore.create({ mongoUrl: 'mongodb+srv://root:root1234@coderhouse.vi3s2vw.mongodb.net/sessions?retryWrites=true&w=majority', mongoOptions }),
@@ -86,10 +86,9 @@ app.use(
         saveUninitialized: false,
         rolling: true,
         cookie:{
-            HttpOnly: false,
+            httpOnly: false,
             secure: false,
-            maxAge: 10000,
-
+            maxAge: 100000
         },
     })
 );
@@ -99,7 +98,6 @@ app.use(passport.session());
 
 const register = new LocalStrategy({ passReqToCallback: true}, 
     async (req, username, password, done) => {
-        console.log('entre al Strategy');
         try {
           const existingUser = await User.findOne({ username });
     
@@ -114,9 +112,9 @@ const register = new LocalStrategy({ passReqToCallback: true},
             firstName: req.body.firstName,
             lastName: req.body.lastName,
           };
-    
+
           const createdUser = await User.create(newUser);
-    
+
           done(null, createdUser);
         }catch(error) {
             console.log('Error en el registro del usuario');
@@ -124,12 +122,11 @@ const register = new LocalStrategy({ passReqToCallback: true},
         }
 });
 
-const login = new LocalStrategy({ passReqToCallback: true}, 
-    async (req, done) => {
-    console.log('entre al Strategy');
+const login = new LocalStrategy( 
+    async (username, password, done) => {
     try {
         const user = await User.findOne({ username });
-    
+
         if (!user || !isValidPassword(password, user.password)) {
           return done(null, null);
         }
@@ -138,7 +135,6 @@ const login = new LocalStrategy({ passReqToCallback: true},
     }catch(error){
         console.log('Error Login', error);
         done('Error Login', null);
-
     }
 });
 
@@ -150,7 +146,7 @@ passport.serializeUser((user, done) => {
 })
 
 passport.deserializeUser((id, done) => {
-    modelUser.findById(id, done);
+    User.findById(id, done);
 })
 
 app.use('/login', express.static(path.join(__dirname, '../public/views')));
@@ -161,6 +157,8 @@ app.set('views', __dirname + '../public/views');
 
 app.use('/api', router);
 app.use('*', redirect);
+
+
 
 io.on('connection', async socket => {
     console.log(`Se conecto un nuevo Cliente con ID: ${socket.id}`);
