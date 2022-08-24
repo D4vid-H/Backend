@@ -1,4 +1,9 @@
-export default {
-    mongoose: 
-    'mongodb+srv://root:root1234@coderhouse.vi3s2vw.mongodb.net/normalizr?retryWrites=true&w=majority'
+import dotenv from 'dotenv';
+dotenv.config()
+
+const config = {
+    mongoose: process.env.MONGOOSE_ENV,
+    mongoUrl: process.env.MONGOURL_ENV
 }
+
+export default config;

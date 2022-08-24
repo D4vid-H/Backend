@@ -1,5 +1,5 @@
-import dotenv from 'dotenv';
-dotenv.config()
+import config from './config.js';
+import yargs from 'yargs';
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -7,11 +7,10 @@ import { Server } from 'socket.io';
 import router from './routers/index.js';
 import fetch from "node-fetch";
 import mongoose from 'mongoose';
-import config from './config.js';
 import Message from './mongoDB/mongoConnect.js';
 import { normalize } from 'normalizr';
 import postSchema from './normalized/normalizr.js'
-import cookieParser from 'cookie-parser';
+//import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import passport from 'passport';
@@ -20,13 +19,17 @@ import User from './model/model.js';
 import bcrypt from 'bcrypt';
 import { redirect } from './Controllers/sessionController.js';
 
+const args = yargs(process.argv.slice(2)).default({
+    port: 8080
+  })
+.argv;
 
-await mongoose.connect(config.mongoose)
+mongoose.connect(config.mongoose);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const port = process.env.PORT;
+const port = args.port;
 const app = express();
 const serverExpress = app.listen(port, error => {
     if(error){
@@ -80,7 +83,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
     session({
-        store:MongoStore.create({ mongoUrl: 'mongodb+srv://root:root1234@coderhouse.vi3s2vw.mongodb.net/passport?retryWrites=true&w=majority', mongoOptions }),
+        store:MongoStore.create({ mongoUrl: config.mongoUrl, mongoOptions }),
         secret:'coderhouse',
         resave: false,
         saveUninitialized: false,
@@ -157,7 +160,6 @@ app.set('views', __dirname + '../public/views');
 
 app.use('/api', router);
 app.use('*', redirect);
-
 
 
 io.on('connection', async socket => {
