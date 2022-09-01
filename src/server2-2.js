@@ -23,7 +23,7 @@ import os from 'os';
 import { fork } from 'child_process';
 
 const args = yargs(process.argv.slice(2)).default({
-    port: 8080
+    port: 8084
   })
 .argv;
 
@@ -224,6 +224,3 @@ io.on('connection', async socket => {
         io.emit('server:normalizedMsg', messages);
     })
 });
-
-
-
