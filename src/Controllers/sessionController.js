@@ -1,7 +1,8 @@
 import  path  from "path";
 import { fork } from 'child_process';
+import { cpus } from "os";
 
-const forked = fork('./src/helpers/fork.js');
+const forked = fork('./helpers/fork.js');
 
 let nameUser = '';
 
@@ -68,7 +69,9 @@ const getInfo = (req, res) => {
         Memoria_total_reservada: process.memoryUsage(),
         Carpeta_del_proyecto: process.cwd(),
         Process_id: process.pid,
-        Path_de_ejecución: process.execPath
+        Path_de_ejecución: process.execPath,
+        Procesadores: cpus().length
+
     })
 }
 
