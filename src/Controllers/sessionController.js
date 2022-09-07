@@ -2,7 +2,7 @@ import  path  from "path";
 import { fork } from 'child_process';
 import { cpus } from "os";
 
-const forked = fork('./helpers/fork.js');
+const forked = fork('./src/helpers/fork.js');
 
 let nameUser = '';
 
@@ -11,7 +11,7 @@ const redirect = (req, res) => {
 }
 
 const getlogin = async (req, res) => {
-    if (req.isAuthenticated()) {
+    if (req.isAuthenticated) {
         res.redirect('/api/home');       
       } else {
         res.redirect('/login');

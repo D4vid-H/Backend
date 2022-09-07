@@ -5,15 +5,19 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./src/server.js"
+    "test1": "echo \"Error: no test specified\" && exit 1",
+    "test": "node ./src/benchmark.js",
+    "start": "0x ./src/server.js",
+    "start1": "nodemon ./src/server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@faker-js/faker": "^7.3.0",
+    "autocannon": "^7.9.0",
     "bcrypt": "^5.0.1",
+    "compression": "^1.7.4",
     "connect-mongo": "^4.6.0",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.1",
@@ -30,6 +34,7 @@
     "passport-local": "^1.0.0",
     "pm2": "^5.2.0",
     "socket.io": "^4.5.1",
+    "winston": "^3.8.1",
     "yargs": "^17.5.1"
   }
 }

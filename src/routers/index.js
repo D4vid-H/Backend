@@ -3,6 +3,7 @@ import passport from 'passport';
 import getProducts from '../Controllers/faker.js';
 import checkAuth from '../helpers/checkAuthenticated.js';
 import { getlogin, getLogout, getUser, redirect, postLogin, getHome, failLogin, postRegister, getRegister, getInfo, getCalc } from '../Controllers/sessionController.js';
+import { loggerWarning} from '../Controllers/midelwareLog.js';
 
 const router = Router();
 
@@ -23,5 +24,7 @@ router.get('/faillogin', failLogin);
 router.get('/info', getInfo);
 
 router.get('/randoms', getCalc);
+
+router.get('/', loggerWarning, redirect);
 
 export default router;
