@@ -21,6 +21,27 @@ import { redirect } from './Controllers/sessionController.js';
 import cluster from 'cluster';
 import os from 'os';
 import { fork } from 'child_process';
+import compression from 'compression';
+import winston from 'winston';
+import {loggers, loggerWarning} from './Controllers/midelwareLog.js';
+
+
+
+const logger = winston.createLogger({
+    level: 'warn',
+    transports : [
+        new winston.transports.Console({ level:'verbose' }),
+        new winston.transports.File({ filename: 'error.log', level:'error'}),
+    ]
+ })
+ 
+ //logger.log('silly', "127.0.0.1 - log silly");
+ //logger.log('debug', "127.0.0.1 - log debug");
+ //logger.log('verbose', "127.0.0.1 - log verbose");
+ //logger.log('info', "127.0.0.1 - log info");
+ //logger.log('warn', "127.0.0.1 - log warn");
+ //logger.log('error', "127.0.0.1 - log error");
+
 
 const args = yargs(process.argv.slice(2)).default({
     port: 8080
@@ -38,6 +59,7 @@ const iscluster = process.argv.slice(3)[0] === 'cluster';
 const port = args.port;
 const app = express();
 
+app.use(compression());
 
 if(iscluster && cluster.isPrimary)
 {
@@ -55,7 +77,7 @@ if(iscluster && cluster.isPrimary)
         }
     });
     
-    app.use('/api', router);
+    app.use('/api', loggers, router);
 }
 
 /* serverExpress = app.listen(port, error => {
@@ -188,41 +210,50 @@ app.use('/home/index', express.static(path.join(__dirname, '../public')));
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '../public/views');
 
-app.use('*', redirect);
+app.use('*', loggerWarning, redirect);
 
 
 io.on('connection', async socket => {
-    console.log(`Se conecto un nuevo Cliente con ID: ${socket.id}`);
+    try {
 
-        const Producto = await fetch("http://localhost:8080/api/productos-test");
-        const ProductoJSON = await Producto.json();
-        socket.emit('server:data', ProductoJSON);
-
-        const messages = await mensajes();
-        socket.emit('server:normalizedMsg', messages);
-
-        const name = await fetch('http://localhost:8080/api/user')
-        const user = await name.json();
-        socket.emit('server:cookiID', user)
-
-    socket.on('client: actualizarTabla', async () => {
-        const Producto = await fetch("http://localhost:8080/api/productos-test");
-        const ProductoJSON = await Producto.json();
-        io.emit('server:data', ProductoJSON);
-    })
-
-    socket.on('client:borrarMessages', async obj => {
-        await messageContenedor.deleteAll(obj);
-        const newMessage = await messageContenedor.getAll();
-        io.emit('server:message', newMessage);
-    }) 
-
-    socket.on('client:msgNormalizr', async message => {
-            const mensaje = new Message(message)
-        await mensaje.save();
+        console.log(`Se conecto un nuevo Cliente con ID: ${socket.id}`);
+    
+            const Producto = await fetch("http://localhost:8080/api/productos-test");
+            const ProductoJSON = await Producto.json();
+            socket.emit('server:data', ProductoJSON);
+    
             const messages = await mensajes();
-        io.emit('server:normalizedMsg', messages);
-    })
+            socket.emit('server:normalizedMsg', messages);
+    
+            const name = await fetch('http://localhost:8080/api/user')
+            const user = await name.json();
+            socket.emit('server:cookiID', user)
+    
+        socket.on('client: actualizarTabla', async () => {
+            const Producto = await fetch("http://localhost:8080/api/productos-test");
+            const ProductoJSON = await Producto.json();
+            io.emit('server:data', ProductoJSON);
+        })
+    
+        socket.on('client:borrarMessages', async obj => {
+            await messageContenedor.deleteAll(obj);
+            const newMessage = await messageContenedor.getAll();
+            io.emit('server:message', newMessage);
+        }) 
+    
+        socket.on('client:msgNormalizr', async message => {
+            try{
+                const mensaje = new Message(message)
+            await mensaje.save();
+                const messages = await mensajes();
+            io.emit('server:normalizedMsg', messages);
+            } catch (error){
+                logger.log('error', error);
+            }
+        })
+    }catch (error){
+        logger.log('error', error);
+    }
 });
 
 
