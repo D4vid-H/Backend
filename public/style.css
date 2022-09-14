@@ -3,18 +3,6 @@
     padding: 0;
 }
 
-.saludo{
-    text-align: center;
-    color: darkblue;
-    font-size: large;
-    font-weight: 600;
-    font-family: monospace;
-}
-
-#login__input{
-    height: 2rem;
-    width: 12rem;
-}
 
 .formProduct{
     margin: 3% 0;
