@@ -12,11 +12,13 @@ import { normalize } from 'normalizr';
 import postSchema from './normalized/normalizr.js'
 
 
-await mongoose.connect('mongodb+srv://root:root1234@coderhouse.vi3s2vw.mongodb.net/normalizr?retryWrites=true&w=majority')
+console.log(process.env.MONGOOSE_ENV);
+
+await mongoose.connect(process.env.MONGOOSE_ENV)
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const port = process.env.PORT;
+const port = process.env.PORT || 8080;
 const app = express();
 const serverExpress = app.listen(port, error => {
     if(error){
