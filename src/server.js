@@ -12,7 +12,7 @@ import { normalize } from 'normalizr';
 import postSchema from './normalized/normalizr.js'
 
 
-await mongoose.connect(process.env.MONGOOSE_ENV)
+await mongoose.connect('mongodb+srv://root:root1234@coderhouse.vi3s2vw.mongodb.net/normalizr?retryWrites=true&w=majority')
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
