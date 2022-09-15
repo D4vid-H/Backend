@@ -7,13 +7,12 @@ import { Server } from 'socket.io';
 import router from './routers/index.js';
 import fetch from "node-fetch";
 import mongoose from 'mongoose';
-import config from './config.js';
 import Message from './mongoDB/mongoConnect.js';
 import { normalize } from 'normalizr';
 import postSchema from './normalized/normalizr.js'
 
 
-await mongoose.connect(config.mongoose)
+await mongoose.connect(process.env.MONGOOSE_ENV)
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
