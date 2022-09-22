@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+</head>
+<body>
+
+    <div>
+        <div >
+    
+          <h1>SIGNUP</h1>
+          <br>
+          <form role="form" action="/api/user/register" method="post" autocomplete="off">
+    
+            <div >
+              <input name='username' placeholder="Nombre" class="form-control" type="text" required>
+            </div>
+            <div >
+              <input name='password' placeholder="Password" class="form-control" type="password" required>
+            </div>
+    
+            <br>
+    
+            <div >
+              <input name='firstName' placeholder="firstname" class="form-control" type="text" required>
+            </div>
+    
+            <div >
+              <input name='lastName' placeholder="lastname" class="form-control" type="text" required>
+            </div>
+    
+            <div >
+              <input name='email' placeholder="email" class="form-control" type="email" required>
+            </div>
+    
+            <div >
+              <input  type="submit" value="Singup">
+            </div>
+          </form>
+    
+        </div>
+      </div>
+    
+
+
+    <!-- <div>
+        <form action="/api/register" method="post">
+            <fieldset>
+                <label for="usar">Register:</label>
+                <input id="login__input" type="text" name="nombre" placeholder="Ingresar nombre">
+                <input id="login__input" type="text" name="apellido" placeholder="Ingresar apellido">
+                <input id="login__input" type="email" name="email" placeholder="Ingresar email">
+                <input id="password__input" type="password" name="password" placeholder="Ingresar password">                
+                <input type="submit" value="Register">
+            </fieldset>
+        </form>
+        <div>
+            <button id="toLogin">Sign In</button>
+        </div>
+    </div> -->
+
+    <script>
+        const toLogin = document.querySelector("#toLogin");
+        toLogin.addEventListener("click", evt => {
+            evt.preventDefault();
+            location.href = '/api/login';
+        })
+    </script>
+</body>
+</html>

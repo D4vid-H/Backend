@@ -9,7 +9,6 @@ import cartrouter from "./routers/cartRouter.js";
 import loginRouter from "./routers/loginRouter.js";
 import User from "./user/user.js";
 import config from "./config.js";
-import { engine } from "express-handlebars";
 import mongoose from "mongoose";
 
 await mongoose.connect(config.mongo.connectDB);
@@ -42,10 +41,8 @@ app.engine(
     defaultLayout: path.join(__dirname, "./views/layout/main.hbs"),
   })
 );
-app.set("views", path.join(__dirname, "./views"));
-app.set("view engine", "hbs");
-
-
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '../public/views');
 
 const registerStrategy = new LocalStrategy(
   { passReqToCallback: true },

@@ -15,6 +15,7 @@ const adminRoleChecker = async (req, res, next) => {
 };
 
 loginRouter.route("/user").post(async (req, res) => {
+
   const newUser = new User(req.body);
 
   await newUser.save();
