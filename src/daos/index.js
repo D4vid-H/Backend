@@ -5,7 +5,7 @@ let CarritoDao;
 let Opcion = process.env.DATABASE;
 
 switch (Opcion) {
-  case "firebase":
+/*   case "firebase":
     const { default: ProductoDacFirebase } = await import(
       "./productos/ProductosDaoFirebase.js"
     );
@@ -17,7 +17,7 @@ switch (Opcion) {
     ProductoDao = new ProductoDacFirebase();
     CarritoDao = new CarritoDacFirebase();
 
-    break;
+    break; */
 
     case "mongoose":
     const { default: ProductoDaoMongoDB } = await import(
@@ -33,7 +33,7 @@ switch (Opcion) {
 
     break;
 
-    case "sql":
+    /* case "sql":
     const { default: ProductDaoSQL } = await import(
       "./productos/ProductosDaoSQL.js"
     );
@@ -58,7 +58,7 @@ switch (Opcion) {
     ProductoDao = new ProductDacArchivo();
     CarritoDao = new CarritoDacArchivo();
 
-    break;
+    break; */
 }
 
 

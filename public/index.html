@@ -10,6 +10,14 @@
 <body>
     <h1 class="title">PRIMER Pre-Entrega</h1>
 
+    <form action="/api/user" enctype="multipart/form-data" method="POST">
+        <input type="email" name="email" placeholder="ejemplo@mail.com">
+        <input type="password" name="password" placeholder="Contraseña">
+        Subi un archivo:
+        <input type="file" name="myFile">
+        <input type="submit" value="Subir">
+    </form>
+
     <a href="./html/form.html">Producto nuevo/actualizar</a>
     <button id="update">Cargar productos</button>
 
