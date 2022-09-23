@@ -4,70 +4,35 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entrega Faker/Normalizr</title>
+    <title>Primer Pre-Entrega</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Desafio entrega Faker/Normalizr</h1>
-    <div>
-        <form id="formProduct" >
-            <!-- <fieldset class="formProduct">
-                <label >Agregar Producto</label>
-                <br>
-                <label for="title">Title:</label>
-                <input id="infoTitle" type="text" name="title" placeholder="Nombre del producto">
-                <label for="image">Img:</label>
-                <input id="infoImg" type="text" name="thumbnail" placeholder="URL de imagen">
-                <label for="price">Price:</label>
-                <input id="infoPrice" type="number" name="price" placeholder="Ingrese un precio">
-                <button type="submit">Agregar</button>
-            </fieldset> -->
-        </form>
+    <h1 class="title">TERCER Pre-Entrega</h1>
+
+    <form action="/api/user/login" enctype="multipart/form-data" method="POST">
+        <input type="text" name="username" placeholder="ejemplo@mail.com">
+        <input type="password" name="password" placeholder="Contraseña">
+        Subi un archivo:
+        <input type="file" name="myFile">
+        <input type="submit" value="Subir">
+    </form>
+
+    <div class="text-center"></div>
+          <button class="btn btn-success my-3" onclick="goSignup()">SIGNUP</button>
     </div>
 
-    <div><button id="btnBorrarProd">Actualizar Tabla</button></div>
+    <div id="app"></div>
 
-    <div>
-        <table>
-            <tr>
-                <th>TITULO</span>
-                <th>PORTADA</th>
-                <th>PRECIO</th>
-            </tr>
-        </table>                
-        <table id="prodContainer" class="prodContainer"></table>
-    </div>
-    <div>
-        <form id="formMessage">
-            <fieldset class="formMessage">
-                <label >Centro de Mensajes</label>
-                <br>
-                <label for="email">Email:</label>
-                <input id="infoEmail" type="email" name="email" placeholder="Ingrese Email">
-                <label for="nombre">Nombre:</label>
-                <input id="infoName" type="text" name="nombre" placeholder="Ingrese Nombre">
-                <label for="apellido">Apellido:</label>
-                <input id="infoSurName" type="text" name="apellido" placeholder="Ingrese Apellido">
-                <label for="alias">Alias:</label>
-                <input id="infoAlias" type="text" name="alias" placeholder="Ingrese Alias">
-                <label for="edad">Edad:</label>
-                <input id="infoEdad" type="number" name="edad" placeholder="Ingrese Edad">
-                <label for="avatar">Avatar:</label>
-                <input id="infoAvatar" type="text" name="avatar" placeholder="URL Avatar">
-            </fieldset>
-                <label for="message">Message:</label>
-                <textarea name="message" id="infoMessage" cols="30" rows="10" placeholder="Escriba su Comentario"></textarea>
-                <button type="submit">Enviar</button>
-        </form>
-    </div>
+    <script src="./main.js">
+        function redireccionar(pagina) {
+          location.href = pagina;
+        }
 
-    <div id="MsgPorciento" class="Titulo Porciento"></div>
+        function goSignup() {
+          redireccionar('/api/user/register');
+        }
 
-    <div id="messageContainer" class="messageContainer"></div>
-
-    <script src="https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script type="module" src="./cliente.socket.js"></script>
+    </script>
 </body>
 </html>
