@@ -21,10 +21,10 @@ switch (Opcion) {
 
     case "mongoose":
     const { default: ProductoDaoMongoDB } = await import(
-      "./productos/ProductosDaoMongoDB.js"
+      "./productos/producto.schem.js"
     );
     const { default: CarritoDaoMongoDB } = await import(
-      "./carritos/CarritosDaoMongoDB.js"
+      "./carritos/carrito.schem.js"
     );
     console.log('Entro al Index de Mongo');
 

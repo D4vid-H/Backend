@@ -1,7 +1,7 @@
 import { Router } from "express";
 const router = Router();
 import multer from "multer";
-import User from "../user/user.js";
+import User from "../daos/user/user.js";
 import { fileURLToPath } from "url";
 import path from "path";
 
@@ -26,7 +26,7 @@ router.post("/user", upload.single("myFile"), async (req, res, next) => {
     return next(error, req, res);
   }
 
-  const existingUser = await User.findOne({ email: req.body.email });
+  const existingUser = await User.findOne({ username: req.body.username });
 
   if (existingUser) {
     return res.sendStatus(400);

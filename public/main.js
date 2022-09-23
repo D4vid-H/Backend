@@ -7,7 +7,7 @@ const formSet = document.querySelector('#formSet');
 const chargeProd = document.querySelector('#chargeProd');
 
 async function arrayProd(){
-    const data = await fetch('/api/productos/0');
+    const data = await fetch('/api/user/productos/all');
     const array = await data.json();
     return array;
 }

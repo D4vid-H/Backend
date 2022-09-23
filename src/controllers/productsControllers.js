@@ -4,12 +4,12 @@ import { ProductoDao } from "../daos/index.js";
 
 export const getProducts = async (req, res) => {
   try {
-    const id = Number(req.params.id);
+    /* const id = Number(req.params.id);
     if (id !== 0) {
       res.json(await ProductoDao.getById(id));
     } else {
-      res.json(await ProductoDao.getAll());
-    }
+    } */
+    res.json(await ProductoDao.getAll());
   } catch (error) {
     console.log(`se produjo el siguiente error: ${error}`);
     res.sendStatus(500);

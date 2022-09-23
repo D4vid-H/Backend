@@ -10,19 +10,29 @@
 <body>
     <h1 class="title">TERCER Pre-Entrega</h1>
 
-    <form action="/api/user" enctype="multipart/form-data" method="POST">
-        <input type="email" name="email" placeholder="ejemplo@mail.com">
+    <form action="/api/user/login" enctype="multipart/form-data" method="POST">
+        <input type="text" name="username" placeholder="ejemplo@mail.com">
         <input type="password" name="password" placeholder="Contraseña">
         Subi un archivo:
         <input type="file" name="myFile">
         <input type="submit" value="Subir">
     </form>
 
-    <a href="./html/form.html">Producto nuevo/actualizar</a>
-    <button id="update">Cargar productos</button>
+    <div class="text-center"></div>
+          <button class="btn btn-success my-3" onclick="goSignup()">SIGNUP</button>
+    </div>
 
     <div id="app"></div>
 
-    <script src="./main.js"></script>
+    <script src="./main.js">
+        function redireccionar(pagina) {
+          location.href = pagina;
+        }
+
+        function goSignup() {
+          redireccionar('/api/user/register');
+        }
+
+    </script>
 </body>
 </html>
