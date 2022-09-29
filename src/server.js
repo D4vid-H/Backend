@@ -4,16 +4,16 @@ import passpotLocal from "passport-local";
 import "dotenv/config";
 import path from "path";
 import { fileURLToPath } from "url";
-import prodrouter from "./routers/productRouter.js";
-import cartrouter from "./routers/cartRouter.js";
+import prodRouter from "./routers/productRouter.js";
+import cartRouter from "./routers/cartRouter.js";
 import loginRouter from "./routers/loginRouter.js";
-import User from "./daos/user/user.js";
+import { UserDao } from "./daos/index.js";
 import config from "./config.js";
 import mongoose from "mongoose";
-import MongoStore from 'connect-mongo';
-import bcrypt from 'bcrypt';
-import session from 'express-session';
-
+import MongoStore from "connect-mongo";
+import bcrypt from "bcrypt";
+import session from "express-session";
+import { getDefault } from "./controllers/defaultControllers.js";
 
 await mongoose.connect(config.mongo.connectDB);
 /* import dotenv from "dotenv";
@@ -35,46 +35,45 @@ app.listen(port, (error) => {
   }
 });
 
-function hashPassword(password){
+function hashPassword(password) {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 }
 
 function isValidPassword(reqPassword, dbPassword) {
-  return bcrypt.compareSync(reqPassword, dbPassword)
+  return bcrypt.compareSync(reqPassword, dbPassword);
 }
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const mongoOptions = { useNewUrlParser: true, useUnifiedTopology: true }
+const mongoOptions = { useNewUrlParser: true, useUnifiedTopology: true };
 
 app.use(
   session({
-      store:MongoStore.create({ mongoUrl: config.mongo.connectDB, mongoOptions }),
-      secret:'coderhouse',
-      resave: false,
-      saveUninitialized: false,
-      rolling: true,
-      cookie:{
-          HttpOnly: false,
-          secure: false,
-          maxAge: 10000,
-
-      },
+    store: MongoStore.create({
+      mongoUrl: config.mongo.connectDB,
+      mongoOptions,
+    }),
+    secret: "coderhouse",
+    resave: false,
+    saveUninitialized: false,
+    rolling: true,
+    cookie: {
+      HttpOnly: false,
+      secure: false,
+      maxAge: 10000,
+    },
   })
 );
 
-
-
-app.set('view engine', 'ejs');
-app.set('views', __dirname + '../public/views');
+app.set("view engine", "ejs");
+app.set("views", __dirname + "../public/views");
 
 const registerStrategy = new LocalStrategy(
   { passReqToCallback: true },
   async (req, username, password, done) => {
     try {
-      const existingUser = await User.findOne({ username });
+      const existingUser = await UserDao.getByUser(username);
 
       if (existingUser) {
         return done(null, null);
@@ -86,7 +85,7 @@ const registerStrategy = new LocalStrategy(
         name: req.body.name,
         age: req.body.age,
         address: req.body.address,
-        cellphone: req.body.cellphone
+        cellphone: req.body.cellphone,
       };
 
       const createdUser = new User(newUser);
@@ -106,8 +105,7 @@ const loginStrategy = new LocalStrategy(
   { passReqToCallback: true },
   async (req, username, password, done) => {
     try {
-
-      const user = await User.findOne({ username });
+      const user = await UserDao.getByUser(username); //User.findOne({ username });
 
       if (!user || !isValidPassword(password, user.password)) {
         return done(null, null);
@@ -132,12 +130,22 @@ passport.deserializeUser((id, done) => {
   User.findById(id, done);
 });
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method"
+  );
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+  res.header("Allow", "GET, POST, OPTIONS, PUT, DELETE");
+  next();
+});
 
-app.use(express.static(path.join(__dirname, "../public")));
+app.use("/api/home", express.static(path.join(__dirname, "../public")));
 
-app.use("/api/productos", prodrouter);
-app.use("/api/carrito", cartrouter);
-app.use("/api/user", loginRouter)
-
+app.use("/api/productos", prodRouter);
+app.use("/api/carrito", cartRouter);
+app.use("/api/user", loginRouter);
+app.use("/", getDefault);
 
 export default __dirname;

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <h1 class="title">TERCER Pre-Entrega</h1>
+
+    <div
+      id="app"
+      style="
+        display: grid;
+        grid-template-columns: repeat(4, 20%);
+        grid-template-rows: auto;
+        gap: 1rem;
+        row-gap: 2rem;
+        width: 90%;
+        margin-left: 5%;
+        margin-top: 5%;
+      "
+    ></div>
+
+    <script>
+      addEventListener("load", async (evt) => {
+        const app = document.querySelector("#app");
+
+        const array = await fetch("/api/productos/all");
+        const prodArray = await array.json();
+        prodArray.map((prod) => {
+          app.innerHTML += ` <div class="prodCard" style="display: flex;
+                            flex-direction: row;
+                            justify-content: center;
+                            align-content: center;
+                            width: 95%;
+                            height: 250px;
+                            background-color: blueviolet;
+                            border-radius: 12px;">
+                <div class="prodImgCont" style="width: 50%;">
+                    <img class="prodImg" style="margin-top: 20%;
+margin-left: 10px;
+width: 100%;
+height: 200px;" src="../../public/img/${prod.picturUrl}" alt="">
+                </div>
+                <div class="prodInfoCont" style="display: flex;
+    flex-direction: column;
+    width: 50%;">
+                    <h1 class="prodName" style="font-size: 24px;
+    margin-top: 20%;
+    margin-left: 15px;">${prod.name}</h1>
+                    <p class="prodCode" style=" font-size: 16px;
+    margin-left: 15px;
+    margin-top: 5%;">codigo: ${prod.code}</p>
+                    <p class="prodDescription" style="font-size: 16px;
+    margin-left: 15px;
+    margin-top: 5%;">Descripcion: ${prod.description}</p>
+                    <span class="prodPrice" style="margin-top: 5%;
+    font-size: 16px;
+    margin-left: 15px;">Precio: ${prod.price}</span><span class="prodStock" style="margin-top: 5%;
+    font-size: 16px;
+    margin-left: 15px;">Stock: ${prod.stock}</span>
+    <form action="/api/carrito/producto" method="post">
+      <input type="hidden" value="${prod.id}" name="prod_id"></input>
+
+                    <input class="prodButton" style="margin-top: 5%;
+    margin-left: 15px;" type="submit">comprar</input></form> 
+                </div>  
+                </div> `;
+        });
+      });
+    </script>
+  </body>
+</html>

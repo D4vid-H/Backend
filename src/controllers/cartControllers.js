@@ -1,5 +1,8 @@
 //import Contenedor from "../contenedores/ContenedorArchivo.js";
-import { ProductoDao, CarritoDao } from "../daos/index.js";
+import { ProductoDao, CarritoDao, UserDao } from "../daos/index.js";
+//import User from "../daos/user/user.schema.js";
+let username = "";
+let cart_id = "";
 //import ProductoDao from "../daos/productos/ProductosDaoArchivo.js";
 
 /* const cartContainer = new Contenedor("../carts.txt");
@@ -15,9 +18,13 @@ export const getCart = async (req, res) => {
   }
 };
 
-export const postCart = async (req, res) => {
+export const postCart = async (user, req, res) => {
   try {
-    res.json({ cartID: await CarritoDao.addCart() });
+    console.log(user);
+    username = user;
+    cart_id = await CarritoDao.addCart(username);
+    console.log("devuelve el id del carrito?");
+    console.log(cart_id);
   } catch (error) {
     console.log(`se produjo el siguiente error: ${error}`);
     res.sendStatus(500);
@@ -26,12 +33,13 @@ export const postCart = async (req, res) => {
 
 export const putCart = async (req, res) => {
   try {
-    const id = Number(req.params.id);
-    const id_prod = Number(req.params.id_prod);
+    console.log(cart_id);
+    console.log(username);
+    console.log(req.body.prod_id);
+    const id_prod = Number(req.body.prod_id);
     if (typeof (await ProductoDao.getById(id_prod)) === typeof {}) {
-      res.json(
-        await CarritoDao.setCart(id, await ProductoDao.getById(id_prod))
-      );
+      await CarritoDao.setCart(cart_id, await ProductoDao.getById(id_prod));
+      res.redirect("/api/user/home");
     } else {
       res.send(await ProductoDao.getById(id_prod));
     }

@@ -1,39 +1,46 @@
-import  path  from "path";
+import path from "path";
 
 const getRegister = (req, res) => {
-    console.log('entre al getRegister');
-    res.render(path.join(process.cwd(), './public/views/register.ejs') /* { user } */);
-}
+  console.log("entre al getRegister");
+  res.render(
+    path.join(process.cwd(), "./src/views/register.ejs") /* { user } */
+  );
+};
 
-const failLogin = (req,res) => {
-    res.render(path.join(process.cwd(), './public/views/failLogin.ejs') /* { user } */);
-}
+const failLogin = (req, res) => {
+  res.render(
+    path.join(process.cwd(), "./src/views/failLogin.ejs") /* { user } */
+  );
+};
 
-const getLogout = (req, res) =>{
-    const user = req.session?.user;
-    if(user){
-        req.session.destroy( (error) => {
-            if(!error) {
-              res.render(path.join(process.cwd(), './public/views/logout.ejs'), { user });
-            }
-            else {
-             res.send({status: 'Logout Error', body: error});
-            }
-        })
-    }  else {
-        return res.redirect('/api/');
-    } 
-}
+const getLogout = (req, res) => {
+  const user = req.session?.user;
+  if (user) {
+    req.session.destroy((error) => {
+      if (!error) {
+        res.render(path.join(process.cwd(), "./src/views/logout.ejs"), {
+          user,
+        });
+      } else {
+        res.send({ status: "Logout Error", body: error });
+      }
+    });
+  } else {
+    return res.redirect("/api/");
+  }
+};
 
 const getLogin = (req, res) => {
-    res.render(path.join(process.cwd(), './public/views/login.ejs'));
-}
-
+  res.render(path.join(process.cwd(), "./src/views/login.ejs"));
+};
 
 const getHome = (req, res) => {
-    
-    res.render(path.join(process.cwd(), './public/views/home.ejs'));
-}
+  res.render(path.join(process.cwd(), "./src/views/home.ejs"));
+};
 
+const getUser = (req, res) => {
+  const username = req.body.username;
+  res.json(username);
+};
 
-export {getRegister, failLogin, getLogout, getLogin, getHome};
+export { getRegister, failLogin, getLogout, getLogin, getHome, getUser };

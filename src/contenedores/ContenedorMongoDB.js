@@ -33,7 +33,7 @@ export default class ContenedorMongoDB {
       if (datos.length !== 0) {
         return datos;
       } else {
-        return (`No hay productos.`);
+        return `No hay productos.`;
       }
     } catch (error) {
       console.log(`Error: ${error}`);
@@ -62,7 +62,7 @@ export default class ContenedorMongoDB {
         product.timestamp = Date.now();
         return await this.coleccion.updateOne({ id: dato.id }, product);
       } else {
-        return (`El producto con id: ${id} no existe.`);
+        return `El producto con id: ${id} no existe.`;
       }
     } catch (error) {
       console.log(`Error: ${error}`);
@@ -84,21 +84,24 @@ export default class ContenedorMongoDB {
     }
   }
 
-  async addCart() {
+  async addCart(user) {
     try {
-      const datos = await this.coleccion.find();
+      console.log(user);
+      console.log("problema aca");
+      const datos = await this.coleccion.find({ username: user });
+      console.log(datos);
       if (datos.length === 0) {
-        const carrito = { id: 1, timestamp: Date.now(), products: [] };
+        const carrito = { id: 1, user, timestamp: Date.now(), products: [] };
         await this.coleccion.create(carrito);
         return carrito.id;
       } else {
-        const carrito = { id: 1, timestamp: Date.now(), products: [] };
+        /* const carrito = { id: 1, user, timestamp: Date.now(), products: [] };
         carrito.id = datos[datos.length - 1].id + 1;
-        await this.coleccion.create(carrito);
-        return carrito.id;
+        await this.coleccion.create(carrito); */
+        return datos[0].id;
       }
     } catch (error) {
-      console.log(`Error: ${error}`);
+      console.log(`Error addCart: ${error}`);
     }
   }
 
@@ -113,7 +116,7 @@ export default class ContenedorMongoDB {
           return carrito.products;
         }
       } else {
-        return (`El carrito con id:${id} no existe.`);
+        return `El carrito con id:${id} no existe.`;
       }
     } catch (error) {
       console.log(`Error: ${error}`);
@@ -126,10 +129,10 @@ export default class ContenedorMongoDB {
       if (!datos.empty) {
         const carrito = datos.find((cart) => cart.id === id);
         carrito.products.push(product);
-        const res = await this.coleccion.updateOne({id: carrito.id}, carrito);
+        const res = await this.coleccion.updateOne({ id: carrito.id }, carrito);
         return res;
       } else {
-        return (`El producto con id: ${id} no existe.`);
+        return `El producto con id: ${id} no existe.`;
       }
     } catch (error) {
       console.log(`Error: ${error}`);
@@ -143,7 +146,7 @@ export default class ContenedorMongoDB {
         const res = await this.coleccion.deleteOne({ id: id });
         return res;
       } else {
-        return (`El carrito con id:${id} no existe.`);
+        return `El carrito con id:${id} no existe.`;
       }
     } catch (error) {
       console.log(`Error: ${error}`);
@@ -161,7 +164,21 @@ export default class ContenedorMongoDB {
         const res = await this.coleccion.updateOne({ id: carrito.id }, carrito);
         return res;
       } else {
-        return (`El carrito con id: ${id} no existe.`);
+        return `El carrito con id: ${id} no existe.`;
+      }
+    } catch (error) {
+      console.log(`Error: ${error}`);
+    }
+  }
+
+  async getByUser(user) {
+    try {
+      const datos = await this.coleccion.find({ username: user });
+      if (datos) {
+        const dato = datos.find((usuario) => usuario.username === user);
+        return dato;
+      } else {
+        return `No existe producto con Id: ${id}`;
       }
     } catch (error) {
       console.log(`Error: ${error}`);

@@ -1,6 +1,6 @@
 import express from 'express';
 import { getProducts, postProducts, putProducts, deleteProducts } from '../controllers/productsControllers.js';
-const prodrouter = express.Router();
+const prodRouter = express.Router();
 
 /* const police = (req, res, next) => {
     const validPass = req.body.admin;
@@ -19,6 +19,6 @@ prodrouter.post('/', police, postProducts);
 prodrouter.put('/:id', police, putProducts);
 
 prodrouter.delete('/:id', police, deleteProducts); */
-prodrouter.route('/all').get(getProducts);
+prodRouter.route('/all').get(getProducts);
 
-export default prodrouter;
+export default prodRouter;

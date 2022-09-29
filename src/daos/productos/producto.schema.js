@@ -1,6 +1,8 @@
-import mongoose from "mongoose";
+import ContenedorMongoDB from "../../contenedores/ContenedorMongoDB.js";
 
-const productoSchema = new mongoose.Schema({
+export default class ProductoDaoMongoDB extends ContenedorMongoDB {
+  constructor() {
+    super("productos", {
     code: { type: String, required: true },
     name: { type: String, required: true },
     category: { type: String, required: false },
@@ -11,10 +13,9 @@ const productoSchema = new mongoose.Schema({
     id: {type: Number, required: true },
     description: { type: String, required: true }
 });
+}
+};
 
-const productos = mongoose.model("carrito", productoSchema);
-
-export default productos;
 
 
 

@@ -2,10 +2,11 @@ import "dotenv/config";
 
 let ProductoDao;
 let CarritoDao;
+let UserDao;
 let Opcion = process.env.DATABASE;
 
 switch (Opcion) {
-/*   case "firebase":
+  /*   case "firebase":
     const { default: ProductoDacFirebase } = await import(
       "./productos/ProductosDaoFirebase.js"
     );
@@ -19,21 +20,24 @@ switch (Opcion) {
 
     break; */
 
-    case "mongoose":
+  case "mongoose":
     const { default: ProductoDaoMongoDB } = await import(
-      "./productos/producto.schem.js"
+      "./productos/producto.schema.js"
     );
     const { default: CarritoDaoMongoDB } = await import(
-      "./carritos/carrito.schem.js"
+      "./carritos/carrito.schema.js"
     );
-    console.log('Entro al Index de Mongo');
+    const { default: UsersDaoMongoDB } = await import("./user/user.schema.js");
+
+    console.log("Entro al Index de Mongo");
 
     ProductoDao = new ProductoDaoMongoDB();
     CarritoDao = new CarritoDaoMongoDB();
+    UserDao = new UsersDaoMongoDB();
 
     break;
 
-    /* case "sql":
+  /* case "sql":
     const { default: ProductDaoSQL } = await import(
       "./productos/ProductosDaoSQL.js"
     );
@@ -61,6 +65,4 @@ switch (Opcion) {
     break; */
 }
 
-
-
-export { ProductoDao, CarritoDao };
+export { ProductoDao, CarritoDao, UserDao };
