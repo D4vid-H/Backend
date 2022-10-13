@@ -2,7 +2,7 @@
 const prodContainer = new Contenedor("../products.txt"); */
 import { ProductoDao } from "../daos/index.js";
 
-export const getProducts = async (req, res) => {
+const getProducts = async (req, res) => {
   try {
     /* const id = Number(req.params.id);
     if (id !== 0) {
@@ -16,7 +16,7 @@ export const getProducts = async (req, res) => {
   }
 };
 
-export const postProducts = async (req, res) => {
+const postProducts = async (req, res) => {
   try {
     const newProducts = req.body;
     res.json({ id: await ProductoDao.add(newProducts) });
@@ -26,7 +26,7 @@ export const postProducts = async (req, res) => {
   }
 };
 
-export const putProducts = async (req, res) => {
+const putProducts = async (req, res) => {
   try {
     const id = Number(req.params.id);
     const updateProduct = req.body;
@@ -37,7 +37,7 @@ export const putProducts = async (req, res) => {
   }
 };
 
-export const deleteProducts = async (req, res) => {
+const deleteProducts = async (req, res) => {
   try {
     const id = Number(req.params.id);
     res.json(await ProductoDao.deleteById(id));
@@ -46,3 +46,5 @@ export const deleteProducts = async (req, res) => {
     res.sendStatus(500);
   }
 };
+
+export { getProducts, postProducts, putProducts, deleteProducts };

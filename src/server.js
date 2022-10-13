@@ -9,16 +9,13 @@ import cartRouter from "./routers/cartRouter.js";
 import loginRouter from "./routers/loginRouter.js";
 import { UserDao } from "./daos/index.js";
 import config from "./config.js";
-import mongoose from "mongoose";
+//import mongoose from "mongoose";
 import MongoStore from "connect-mongo";
 import bcrypt from "bcrypt";
 import session from "express-session";
 import { getDefault } from "./controllers/defaultControllers.js";
 
-await mongoose.connect(config.mongo.connectDB);
-/* import dotenv from "dotenv";
-
-dotenv.config(); */
+//await mongoose.connect(config.mongo.connectDB);
 
 const LocalStrategy = passpotLocal.Strategy;
 
@@ -88,11 +85,10 @@ const registerStrategy = new LocalStrategy(
         cellphone: req.body.cellphone,
       };
 
-      const createdUser = new User(newUser);
+      const createdUser = /* new (newUser) */ await UserDao.addUser(newUser);
 
-      await createdUser.save();
+      //await createdUser.save();
 
-      req.user = req.body.email;
       done(null, createdUser);
     } catch (err) {
       console.log("Erro registrando usuario", err);
@@ -119,16 +115,17 @@ const loginStrategy = new LocalStrategy(
   }
 );
 
-passport.use("register", registerStrategy);
-passport.use("login", loginStrategy);
-
 passport.serializeUser((user, done) => {
+  console.log(user);
   done(null, user._id);
 });
 
 passport.deserializeUser((id, done) => {
   User.findById(id, done);
 });
+
+passport.use("register", registerStrategy);
+passport.use("login", loginStrategy);
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -141,7 +138,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/api/home", express.static(path.join(__dirname, "../public")));
+app.use(express.static(path.join(__dirname, "../public")));
 
 app.use("/api/productos", prodRouter);
 app.use("/api/carrito", cartRouter);

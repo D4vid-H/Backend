@@ -11,6 +11,8 @@ import {
 } from "../controllers/loginControllers.js";
 import { getProducts } from "../controllers/productsControllers.js";
 import { postCart } from "../controllers/cartControllers.js";
+import path from "path";
+import sendMailer from "../helper/mail.js";
 
 const loginRouter = Router();
 
@@ -27,10 +29,12 @@ const loginRouter = Router();
 loginRouter
   .get("/login", getLogin)
   .post("/login", passport.authenticate("login"), (req, res) => {
-    console.log(req.body.username);
     postCart(req.body.username);
     //getUser(req);
-    res.redirect("http://localhost:8080/api/user/home");
+    //res.redirect("http://localhost:8080/api/user/home");
+    res.render(path.join(process.cwd(), "./src/views/home.ejs"), {
+      user: req.body.username,
+    });
   });
 
 loginRouter.route("/user").get(getUser);
@@ -40,6 +44,14 @@ loginRouter.route("/home").get(getHome);
 loginRouter
   .get("/register", getRegister)
   .post("/register", passport.authenticate("register"), (req, res) => {
+    const options = {
+      user: req.body.username,
+      names: req.body.name,
+      address: req.body.address,
+      age: req.body.age,
+      cel: req.body.cellphone,
+    };
+    sendMailer(options);
     res.redirect("http://localhost:8080/api/user/login");
   });
 

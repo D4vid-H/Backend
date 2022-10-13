@@ -184,4 +184,9 @@ export default class ContenedorMongoDB {
       console.log(`Error: ${error}`);
     }
   }
+
+  async addUser(user) {
+    const newUser = await this.coleccion.create(user);
+    return newUser;
+  }
 }

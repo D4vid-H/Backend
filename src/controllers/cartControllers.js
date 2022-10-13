@@ -8,7 +8,7 @@ let cart_id = "";
 /* const cartContainer = new Contenedor("../carts.txt");
 const prodContainer = new Contenedor("../products.txt"); */
 
-export const getCart = async (req, res) => {
+const getCart = async (req, res) => {
   try {
     const id = Number(req.params.id);
     res.json(await CarritoDao.getAllCart(id));
@@ -18,7 +18,7 @@ export const getCart = async (req, res) => {
   }
 };
 
-export const postCart = async (user, req, res) => {
+const postCart = async (user, req, res) => {
   try {
     console.log(user);
     username = user;
@@ -31,7 +31,7 @@ export const postCart = async (user, req, res) => {
   }
 };
 
-export const putCart = async (req, res) => {
+const putCart = async (req, res) => {
   try {
     console.log(cart_id);
     console.log(username);
@@ -49,7 +49,7 @@ export const putCart = async (req, res) => {
   }
 };
 
-export const deleteCart = async (req, res) => {
+const deleteCart = async (req, res) => {
   try {
     const id = Number(req.params.id);
     const id_prod = Number(req.params.id_prod);
@@ -63,3 +63,5 @@ export const deleteCart = async (req, res) => {
     res.sendStatus(500);
   }
 };
+
+export { getCart, postCart, putCart, deleteCart };

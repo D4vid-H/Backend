@@ -35,6 +35,9 @@ const getLogin = (req, res) => {
 };
 
 const getHome = (req, res) => {
+  console.log("probando req.session");
+  console.log(req.session.passport.username);
+  console.log(req.session.passport.user);
   res.render(path.join(process.cwd(), "./src/views/home.ejs"));
 };
 
