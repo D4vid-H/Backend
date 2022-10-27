@@ -87,8 +87,6 @@ const registerStrategy = new LocalStrategy(
 
       const createdUser = /* new (newUser) */ await UserDao.addUser(newUser);
 
-      //await createdUser.save();
-
       done(null, createdUser);
     } catch (err) {
       console.log("Erro registrando usuario", err);
